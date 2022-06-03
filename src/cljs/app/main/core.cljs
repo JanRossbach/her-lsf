@@ -1,6 +1,7 @@
 (ns app.main.core
   (:require ["electron" :refer [app BrowserWindow crashReporter]]))
 
+
 (def main-window (atom nil))
 
 (defn init-browser []
