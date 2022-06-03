@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "shadow-cljs watch main renderer",
     "build": "shadow-cljs compile main renderer",
-    "clean": "rm -rf resources/public/js/* && rm -rf target"
+    "clean": "rm -rf resources/public/js/* && rm -rf target",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make --arch=x64 --platform=darwin"
   },
   "keywords": [
     "shadow-cljs",
@@ -16,10 +19,44 @@
   "author": "Ahonn Jiang <ahonn95@outlook.com>",
   "license": "MIT",
   "dependencies": {
-    "electron": "^16.0.7",
-    "electron-packager": "^15.4.0",
+    "electron-squirrel-startup": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "shadow-cljs": "^2.16.12"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "electron": "^16.2.8"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "shadow_electron_starter"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
