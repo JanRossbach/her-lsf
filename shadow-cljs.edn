@@ -1,7 +1,7 @@
 ;; shadow-cljs configuration
-{:deps true
+{:deps true ;; use deps.edn for dependencies
 
- :dev-http {8080 "resources/public/"}
+ :dev-http {8080 "resources/public/"} ;; start a webserver for development
 
  :builds {:main {:target :node-script
                  :output-to "resources/main.js"
