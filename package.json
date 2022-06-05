@@ -4,8 +4,8 @@
   "description": "shadow-cljs electron starter",
   "main": "resources/main.js",
   "scripts": {
-    "dev": "shadow-cljs watch main renderer",
-    "build": "shadow-cljs compile main renderer",
+    "dev": "shadow-cljs -A:dev watch main renderer",
+    "build": "shadow-cljs release main renderer",
     "clean": "rm -rf resources/public/js/* && rm -rf target",
     "start": "electron-forge start",
     "package": "electron-forge package",
