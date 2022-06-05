@@ -62,3 +62,5 @@ If there are problems with the electron permissions, try giving it execute permi
 ```
 chmod +x ./node_modules/.bin/electron
 ```
+In case your shadow-cljs throws error message along the lines of "Cannot invoke \"Object.getClass()\" because \"target\" is null" but still compiles fine,
+try downgrading your java version to something below version 15, to get rid of the errors.
