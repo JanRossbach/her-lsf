@@ -20,4 +20,4 @@
     [:img.cljs {:src "img/cljs-logo.svg"}]
     [:img.reagent {:src "img/reagent-logo.png"}]]
    [:input {:type "file" :id "file" :name "file"
-            :on-change #(re-frame/dispatch [::events/add-hello])}]])
+            :on-change #(re-frame/dispatch [::events/import-xml (-> % .-target .-files js->clj)])}]])

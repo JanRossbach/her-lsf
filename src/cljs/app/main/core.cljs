@@ -1,6 +1,9 @@
 (ns app.main.core
-  (:require ["electron" :refer [app BrowserWindow crashReporter]]))
+  (:require ["electron" :refer [app BrowserWindow crashReporter]]
+            ["fs" :as fs]))
 
+(defn write-hello []
+  (.writeFileSync fs "./hello" "Hello World"))
 
 (def main-window (atom nil))
 
@@ -16,12 +19,13 @@
 
 (defn main []
   ; CrashReporter can just be omitted
-  (.start crashReporter
-          (clj->js
-           {:companyName "MyAwesomeCompany"
-            :productName "MyAwesomeApp"
-            :submitURL "https://example.com/submit-url"
-            :autoSubmit false}))
+  ;; (.start crashReporter
+  ;;         (clj->js
+  ;;          {:companyName "HHU"
+  ;;           :productName "HER-LSF"
+  ;;           :submitURL "https://example.com/submit-url"
+  ;;           :autoSubmit false}))
+  (write-hello)
 
   (.on app "window-all-closed" #(when-not (= js/process.platform "darwin")
                                   (.quit app)))

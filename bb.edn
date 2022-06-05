@@ -3,7 +3,7 @@
  {install (shell "npm install")
   build (shell "shadow-cljs compile main renderer")
   dev (shell "shadow-cljs watch main renderer")
-  electron (shell "npx electron .")
+  electron (do (run 'build) (shell "npx electron ."))
   clean (shell "rm -rf resources/public/js/* && rm -rf target")
   start (shell "npx electron-forge start")
   package (shell "npx electron-forge package")
