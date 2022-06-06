@@ -1,0 +1,1 @@
+#datascript/DB {:schema nil, :datoms [[1 :app/type :type/task 536870913] [1 :task/description "Just learn it" 536870913] [1 :task/done? false 536870913] [1 :task/title "Learn Clojure a little bit" 536870913] [2 :app/type :type/task 536870913] [2 :task/description "Just relax" 536870913] [2 :task/done? false 536870913] [2 :task/title "Have a coffe" 536870913]]}

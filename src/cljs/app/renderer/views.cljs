@@ -6,18 +6,31 @@
    [app.renderer.events :as events]))
 
 (defn title []
-  (let [name (re-frame/subscribe [::subs/name])]
-    [:h1
-     :label (str "Hello from " @name)
+  (let [name (re-frame/subscribe [::subs/application-name])]
+    [re-com/title
+     :label (str "Welcome to " @name)
      :level :level1]))
 
+(defn button []
+  [re-com/button
+   :label "Save DB"
+   :on-click #(re-frame/dispatch [::events/save-db])])
+
 (defn root-component []
-  [:div
-   [title]
-   [re-com/title :label "Hello"]
-   [:div.logos
-    [:img.electron {:src "img/electron-logo.png"}]
-    [:img.cljs {:src "img/cljs-logo.svg"}]
-    [:img.reagent {:src "img/reagent-logo.png"}]]
-   [:input {:type "file" :id "file" :name "file"
-            :on-change #(re-frame/dispatch [::events/import-xml (-> % .-target .-files js->clj)])}]])
+  [re-com/v-box
+   :gap "50px"
+   :class "container"
+   :children
+   [[title]
+    [button]
+    [re-com/border
+     :border "1px dashed red"
+     :child
+     [:div.logos
+      [:img.electron {:src "img/electron-logo.png"}]
+      [:img.cljs {:src "img/cljs-logo.svg"}]
+      [:img.reagent {:src "img/reagent-logo.png"}]]]
+    [:input
+     {:type "file" :id "file" :name "file"
+      :on-change
+      #(re-frame/dispatch [::events/import-xml (-> % .-target .-files js->clj)])}]]])

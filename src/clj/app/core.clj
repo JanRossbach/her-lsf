@@ -8,7 +8,6 @@
 ;;(excel/load-workbook "resources/db/GeheimeDaten.xlsx")
 
 
-
 (def input-xml (slurp "resources/db/GeheimeDaten.xml"))
 
 (def filtered-xml (clojure.string/replace input-xml #"\n[ ]*|\r" "")) ;; remove whitespace

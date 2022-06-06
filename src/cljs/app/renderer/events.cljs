@@ -1,9 +1,35 @@
 (ns app.renderer.events
   (:require
+   [app.renderer.db :refer [connect-db!]]
    [re-frame.core :as re-frame]
    [re-posh.core :as re-posh]
    [jtk-dvlp.re-frame.readfile-fx]
    [app.renderer.db :as database]))
+
+;; ELECTRON STUFF
+
+(def electron (js/require "electron"))
+(def ipcRenderer (.-ipcRenderer electron))
+
+(re-frame/reg-fx
+ :ipc
+ (fn [{:keys [event args]}]
+   (.send ipcRenderer event args)))
+
+(re-posh/reg-event-fx
+ ::save-db
+ [(re-posh/inject-cofx :ds)]
+ (fn [{:keys [ds]} _]
+   {:ipc
+    {:event "save-db"
+     :args (pr-str ds)}}))
+
+(re-frame/reg-event-fx
+ ::load-db
+ (fn [_ [_ value]]
+   (connect-db! value)))
+
+;; END
 
 
 (defn- col->array
@@ -13,10 +39,15 @@
       .-slice
       (.call col)))
 
-(re-posh/reg-event-ds
+(re-frame/reg-event-db
  ::initialize-db
  (fn [_ _]
    database/initial-db))
+
+(re-posh/reg-event-ds
+ ::initialize-ds
+ (fn [_ _]
+   database/initial-ds))
 
 (re-frame/reg-event-fx
  ::xml-import-read-success
