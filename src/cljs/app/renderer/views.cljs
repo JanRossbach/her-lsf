@@ -5,6 +5,13 @@
    [app.renderer.subs :as subs]
    [app.renderer.events :as events]))
 
+(defn- col->array
+  [col]
+  (-> js/Array
+      .-prototype
+      .-slice
+      (.call col)))
+
 (defn title []
   (let [name (re-frame/subscribe [::subs/application-name])]
     [re-com/title
@@ -33,4 +40,4 @@
     [:input
      {:type "file" :id "file" :name "file"
       :on-change
-      #(re-frame/dispatch [::events/import-xml (-> % .-target .-files js->clj)])}]]])
+      #(re-frame/dispatch [::events/import-xml (-> % .-target .-files col->array js->clj)])}]]])

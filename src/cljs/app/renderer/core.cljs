@@ -9,13 +9,13 @@
 
 (enable-console-print!)
 
-(def electron (js/require "electron"))
-(def ipcRenderer (.-ipcRenderer electron))
+;; (def electron (js/require "electron"))
+;; (def ipcRenderer (.-ipcRenderer electron))
 
 (defonce init
   (do
-    (.on ipcRenderer "load-db" (fn [_ value]
-                                 (re-frame/dispatch [::events/load-db value])))
+    ;; (.on ipcRenderer "load-db" (fn [_ value]
+    ;;                              (re-frame/dispatch [::events/load-db value])))
     (re-frame/dispatch-sync [::events/initialize-db])
    ; (re-posh/dispatch-sync [::events/initialize-ds])
     ))

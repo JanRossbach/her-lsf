@@ -12,7 +12,7 @@
                      :asset-path "js"
                      :modules {:renderer {:init-fn app.renderer.core/start!}}
 
-                     :devtools {:preloads [;devtools.preload
+                     :devtools {:preloads [devtools.preload
                                            day8.re-frame-10x.preload]}
                      :dev      {:compiler-options
                                 {:closure-defines

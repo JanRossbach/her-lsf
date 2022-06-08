@@ -27,5 +27,5 @@
   (let [conn (datascript/conn-from-db (read-db db))]
     (re-posh/connect! conn)))
 
-;; (def conn (datascript/create-conn))
-;; (re-posh/connect! conn)
+(def conn (datascript/create-conn))
+(re-posh/connect! conn)
