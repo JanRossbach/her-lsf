@@ -4,10 +4,11 @@ node_modules/
 .cpcache
 .clj-kondo
 .lsp
+*.ksv
 
 resources/public/js
 resources/main.js
 target/
-notes.org
+TODOs.org
 
 out/

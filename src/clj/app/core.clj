@@ -1,39 +1,34 @@
 (ns app.core
   (:require
-   [dk.ative.docjure.spreadsheet :as excel]
-   [clojure.data.xml :refer [parse]]
+   [clojure.spec.alpha :as spec]
    [clojure.pprint :refer [pprint]]
-   [com.rpl.specter :as s]))
+   [datahike.api :as d]
+   [com.rpl.specter :as s]
+   [app.db :as db]
+   [app.xml :refer [xml->entities]]))
 
-;;(excel/load-workbook "resources/db/GeheimeDaten.xlsx")
 
+(def cfg {:store {:backend :file
+                  :path "resources/db/hike"}})
 
-(def input-xml (slurp "/home/jan/School/GeheimeDaten.xml"))
+(def xml-src (slurp "/home/jan/School/GeheimeDaten.xml"))
 
-(def filtered-xml (clojure.string/replace input-xml #"\n[ ]*|\r" "")) ;; remove whitespace
+(def entities (xml->entities xml-src))
 
-(pprint (apply str (take 200 filtered-xml)))
+(comment
 
-(def reader (java.io.StringReader. filtered-xml))
+  (d/create-database cfg)
 
-(def output-map (parse reader))
+  (def conn (d/connect cfg))
 
-(pprint output-map)
+  (d/transact conn db/schema)
 
-(first (:content output-map))
+  (d/transact conn entities)
 
-(pprint filtered-xml)
+  (d/q '[:find ?id
+         :where
+         [?v :veranstaltung/name "Stochastik"]
+         [?v :veranstaltung/id ?id]]
+       @conn)
 
-(defn xmlmap->map
-  "Recursively translates a given clojure map in xml format given by data.xml
-  to a map that uses the tag as key and the content as value. Attributes are ignored."
-  [xmlmap]
-  (if (map? xmlmap)
-    (let [{:keys [tag content]} xmlmap
-          content-map (map xmlmap->map content)]
-      {tag (if (= 1 (count content-map)) (first content-map) content-map)})
-    xmlmap))
-
-(def res (xmlmap->map output-map))
-
-(pprint res)
+  )
