@@ -19,7 +19,7 @@
                                                                content-map))})
     xmlmap))
 
-(defn entity?
+(defn veranstaltung?
   [m]
   (or
    (:Veranstaltung m)
@@ -106,6 +106,7 @@
          (:MaxTeilnehmer v) (assoc a :veranstaltung/max-teilnehmer (Long/parseLong (:MaxTeilnehmer v)))
          (:VDTyp v) (assoc a :veranstaltung/typ (:VDTyp v))
          (:VZSemester v) (assoc a :veranstaltung/semester (:VZSemester v))
+         (:studiengang v) (assoc a :veranstaltung/studiengang (:studiengang v))
          (:VZLehrPerson v) (assoc a :veranstaltung/lehrpersonen (vec (conj (:veranstaltung/lehrpersonen v)
                                                                               (format-data v))))
          (:VZeit v) (assoc a :veranstaltung/vzeiten (vec (conj (:veranstaltung/vzeiten v)
@@ -115,6 +116,11 @@
       :veranstaltung/vzeiten []}
      content)))
 
+(defn add-studiengang
+  [vorlesung]
+  (let [name (first (s/select [(s/walker :UeBez) :UeBez] vorlesung))]
+    (s/setval [(s/walker :Veranstaltung) :Veranstaltung s/BEFORE-ELEM] {:studiengang name} vorlesung)))
+
 (defn xml->entities
   "Takes an xml string and returns a collection of
   app.db/entities. This can be put into the database as a transaction."
@@ -122,7 +128,13 @@
   {:post [(spec/valid? ::db/entities %)]}
   (let [s (string/replace src #"\n[ ]*|\r" "")
         reader (java.io.StringReader. s)
-        out (parse reader)
-        data (s/transform (s/walker #(= % :VeranstaltungErsteEbene)) (fn [_] :Veranstaltung) (xmlmap->map out))
-        entities (s/select (s/walker entity?) data)]
+        data (->> reader
+                  parse
+                  xmlmap->map
+                  (s/transform (s/walker :Vorlesung) add-studiengang)
+                  (s/transform [(s/walker :Vorlesung) (s/walker :Vorlesung)] add-studiengang)
+                  (s/setval [(s/walker :VeranstaltungErsteEbene) :VeranstaltungErsteEbene s/BEFORE-ELEM]
+                            {:studiengang "Erste Ebene"})
+                  (s/transform (s/walker #(= % :VeranstaltungErsteEbene)) (fn [_] :Veranstaltung)))
+        entities (s/select (s/walker veranstaltung?) data)]
     (mapv format-data entities)))

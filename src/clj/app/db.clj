@@ -49,6 +49,7 @@
 (spec/def :veranstaltung/max-teilnehmer int?)
 (spec/def :veranstaltung/typ string?)
 (spec/def :veranstaltung/semester string?)
+(spec/def :veranstaltung/studiengang string?)
 (spec/def :veranstaltung/lehrpersonen (spec/coll-of ::lehrperson))
 (spec/def :veranstaltung/vzeiten (spec/coll-of ::vzeit))
 
@@ -58,6 +59,7 @@
                                       :veranstaltung/typ
                                       :veranstaltung/semester
                                       :veranstaltung/lehrpersonen
+                                      :veranstaltung/studiengang
                                       :veranstaltung/vzeiten]
 
                                      :opt
@@ -87,6 +89,7 @@
     :veranstaltung/max-teilnehmer
     :veranstaltung/typ
     :veranstaltung/semester
+    :veranstaltung/studiengang
     :veranstaltung/lehrpersonen
     :veranstaltung/vzeiten]))
 
