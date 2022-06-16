@@ -17,7 +17,7 @@
     ;; (.on ipcRenderer "load-db" (fn [_ value]
     ;;                              (re-frame/dispatch [::events/load-db value])))
     (re-frame/dispatch-sync [::events/initialize-db])
-   ; (re-posh/dispatch-sync [::events/initialize-ds])
+    (re-posh/dispatch-sync [::events/initialize-ds])
     ))
 
 
