@@ -12,3 +12,13 @@
  ::application-name
  (fn [db _]
    (:application/name db)))
+
+(re-frame/reg-sub
+ ::active-panel
+ (fn [db _]
+   (:application/active-panel db)))
+
+(re-posh/reg-query-sub
+ ::veranstaltungen
+ '[:find ?id
+   :where [?id :veranstaltung/id _]])
