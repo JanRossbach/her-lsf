@@ -22,3 +22,10 @@
  ::veranstaltungen
  '[:find ?id
    :where [?id :veranstaltung/id _]])
+
+(re-posh/reg-sub
+ ::veranstaltung-by-id
+ (fn [_ [_ id]]
+   {:type :pull
+    :pattern '[:veranstaltung/name]
+    :id id}))

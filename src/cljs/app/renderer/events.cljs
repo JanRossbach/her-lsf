@@ -72,3 +72,9 @@
      :charsets nil
      :on-success [::xml-import-read-success]
      :on-error [::xml-import-read-error]}}))
+
+
+(re-frame/reg-event-db
+ ::navigate
+ (fn [db [_ new-panel]]
+   (assoc db :application/active-panel new-panel)))

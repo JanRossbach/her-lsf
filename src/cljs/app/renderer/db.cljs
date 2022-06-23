@@ -94,7 +94,7 @@
 
 (def initial-db
   {:application/name "HER-LSF"
-   :application/active-panel :veranstaltungen})
+   :application/active-panel [:veranstaltungen]})
 
 (def initial-ds
   (gen/generate (spec/gen ::entities)))

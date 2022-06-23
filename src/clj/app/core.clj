@@ -20,6 +20,7 @@
 
 (def entities (xml->entities xml-src))
 
+
 (def veranstaltung-ids
   '[:find ?id
     :where
@@ -27,6 +28,7 @@
 
 
 (comment
+  (spit "initial_transaction.edn" entities)
 
   (d/create-database cfg)
 
@@ -42,4 +44,17 @@
          [?v :lehrperson/pers-id ?id]]
        @conn)
 
-  )
+  (count (d/q '[:find ?n ?m ?time ?tag ?s
+                :where
+                [?zeit :vzeit/start-zeit ?time]
+                [?zeit2 :vzeit/start-zeit ?time]
+                [?zeit :vzeit/wochentag ?tag]
+                [?zeit2 :vzeit/wochentag ?tag]
+                [?v :veranstaltung/vzeiten ?zeit]
+                [?w :veranstaltung/vzeiten ?zeit2]
+                [(not= ?v ?w)]
+                [?v :veranstaltung/studiengang ?s]
+                [?w :veranstaltung/studiengang ?s]
+                [?v :veranstaltung/name ?n]
+                [?w :veranstaltung/name ?m]]
+              @conn)))
