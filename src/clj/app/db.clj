@@ -96,7 +96,7 @@
     :veranstaltung/vzeiten]))
 
 (def vzeit-schema
-  (spectomic/datascript-schema
+  (spectomic/datomic-schema
    [[:vzeit/id {:db/unique :db.unique/identity}]
     :vzeit/wochentag
     :vzeit/start-zeit
@@ -107,21 +107,16 @@
     :vzeit/raum]))
 
 (def lehrperson-schema
-  (spectomic/datascript-schema
+  (spectomic/datomic-schema
    [[:lehrperson/pers-id {:db/unique :db.unique/identity}]
     :lehrperson/name
     :lehrperson/vorname]))
 
 (def raum-schema
-  (spectomic/datascript-schema
+  (spectomic/datomic-schema
    [[:raum/name {:db/unique :db.unique/identity}]
     :raum/form
     :raum/gebaeude]))
-
-#:raum{:name #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}, :form #:db{:cardinality :db.cardinality/one}, :gebaeude #:db{:cardinality :db.cardinality/one}}
-
-veranstaltungs-schema
-
 
 (def schema
   (vec (concat
@@ -129,12 +124,3 @@ veranstaltungs-schema
         vzeit-schema
         raum-schema
         lehrperson-schema)))
-
-{:vzeit/end-zeit #:db{:cardinality :db.cardinality/one}, :raum/name #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}, :lehrperson/vorname #:db{:cardinality :db.cardinality/one}, :vzeit/end-datum #:db{:cardinality :db.cardinality/one}, :db/unique :db.unique/identity, :vzeit/id #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}, :db/valueType :db.type/ref, :lehrperson/pers-id #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}, :vzeit/wochentag #:db{:cardinality :db.cardinality/one}, :vzeit/start-datum #:db{:cardinality :db.cardinality/one}, :vzeit/raum #:db{:cardinality :db.cardinality/one, :valueType :db.type/ref}, :lehrperson/name #:db{:cardinality :db.cardinality/one}, :raum/form #:db{:cardinality :db.cardinality/one}, :vzeit/rhythmus #:db{:cardinality :db.cardinality/one}, :raum/gebaeude #:db{:cardinality :db.cardinality/one}, :db/cardinality :db.cardinality/many, :db/ident :veranstaltung/vzeiten, :vzeit/start-zeit #:db{:cardinality :db.cardinality/one}}
-
-
-{:ident :veranstaltung/id, :valueType :db.type/long, :cardinality :db.cardinality/one, :unique :db.unique/identity}
-
-[#:db #:db{:ident :veranstaltung/name, :valueType :db.type/string, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/SWS, :valueType :db.type/long, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/ECTS, :valueType :db.type/long, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/max-teilnehmer, :valueType :db.type/long, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/typ, :valueType :db.type/string, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/semester, :valueType :db.type/string, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/studiengang, :valueType :db.type/string, :cardinality :db.cardinality/one} #:db{:ident :veranstaltung/lehrpersonen, :cardinality :db.cardinality/many, :valueType :db.type/ref} #:db{:ident :veranstaltung/vzeiten, :cardinality :db.cardinality/many, :valueType :db.type/ref} [:vzeit/id #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}] [:vzeit/wochentag #:db{:cardinality :db.cardinality/one}] [:vzeit/start-zeit #:db{:cardinality :db.cardinality/one}] [:vzeit/end-zeit #:db{:cardinality :db.cardinality/one}] [:vzeit/start-datum #:db{:cardinality :db.cardinality/one}] [:vzeit/end-datum #:db{:cardinality :db.cardinality/one}] [:vzeit/rhythmus #:db{:cardinality :db.cardinality/one}] [:vzeit/raum #:db{:cardinality :db.cardinality/one, :valueType :db.type/ref}] [:raum/name #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}] [:raum/form #:db{:cardinality :db.cardinality/one}] [:raum/gebaeude #:db{:cardinality :db.cardinality/one}] [:lehrperson/pers-id #:db{:cardinality :db.cardinality/one, :unique :db.unique/identity}] [:lehrperson/name #:db{:cardinality :db.cardinality/one}] [:lehrperson/vorname #:db{:cardinality :db.cardinality/one}]]
-
-;; (clojure.pprint/pprint (gen/generate (spec/gen ::entities)))

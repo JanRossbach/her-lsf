@@ -48,7 +48,7 @@
 (re-posh/reg-event-ds
  ::initialize-ds
  (fn [_ _]
-   database/initial-ds))
+   (database/gen-entities)))
 
 (re-frame/reg-event-fx
  ::xml-import-read-success
@@ -78,3 +78,8 @@
  ::navigate
  (fn [db [_ new-panel]]
    (assoc db :application/active-panel new-panel)))
+
+(re-frame/reg-event-db
+ ::set-v-search-term
+ (fn [db [_ st]]
+   (assoc db :veranstaltungen/current-search-term st)))

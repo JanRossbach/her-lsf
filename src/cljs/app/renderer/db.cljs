@@ -94,10 +94,13 @@
 
 (def initial-db
   {:application/name "HER-LSF"
-   :application/active-panel [:veranstaltungen]})
+   :application/active-panel [:veranstaltungen]
+   :veranstaltungen/current-search-term ""})
 
-(def initial-ds
+(defn gen-entities []
   (gen/generate (spec/gen ::entities)))
+
+;; (def initial-ds (gen-entities))
 
 (def conn (datascript/create-conn schema))
 (re-posh/connect! conn)

@@ -27,6 +27,15 @@
     [?n :veranstaltung/id ?id]])
 
 
+(d/q
+ '[:find ?name
+   :in $ ?search
+   :where
+   [_ :veranstaltung/name ?name]
+   [(re-matches ?search ?name)]]
+ @conn
+ (re-pattern (str ".*" "Graph" ".*")))
+
 (comment
   (spit "initial_transaction.edn" entities)
 
@@ -57,4 +66,7 @@
                 [?w :veranstaltung/studiengang ?s]
                 [?v :veranstaltung/name ?n]
                 [?w :veranstaltung/name ?m]]
-              @conn)))
+              @conn))
+
+
+  )

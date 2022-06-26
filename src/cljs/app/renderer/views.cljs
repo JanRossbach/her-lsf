@@ -10,18 +10,13 @@
 (defn title []
   (let [name (re-frame/subscribe [::subs/application-name])]
     [re-com/title
-     :label (str "Welcome to " @name)
+     :label (str @name)
      :level :level1]))
 
 (defn button []
   [re-com/button
    :label "Initialize ds-mock"
    :on-click #(re-frame/dispatch [::events/initialize-ds])])
-
-(defn home-button []
-  [re-com/button
-   :label "Home"
-   :on-click #(re-frame/dispatch [::events/navigate [:veranstaltungen]])])
 
 (defn root-component []
   [re-com/v-box
@@ -30,5 +25,4 @@
    :children
    [[title]
     [main-panel]
-    [button]
-    [home-button]]])
+    [button]]])
