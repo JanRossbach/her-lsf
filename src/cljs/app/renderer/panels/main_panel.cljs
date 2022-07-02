@@ -4,12 +4,14 @@
    [app.renderer.subs :as subs]
    [app.renderer.events :as events]
    [re-com.core :as re-com]
-   [app.renderer.panels.veranstaltungs-views :as v]))
+   [app.renderer.panels.veranstaltungs-views :as v]
+   [app.renderer.panels.raum-views :as r]))
 
 (defmulti active-panel first)
 
 (def tab-definitions
-  [{:id :veranstaltungen :label "Veranstaltungen"}])
+  [{:id :veranstaltungen :label "Veranstaltungen"}
+   {:id :raeume :label "Räume"}])
 
 (defn main-panel
   []
@@ -25,3 +27,4 @@
 
 (defmethod active-panel :veranstaltung [[_ id]] [v/v-details-view id])
 (defmethod active-panel :veranstaltungen [_] [v/veranstaltungen-view])
+(defmethod active-panel :raeume [_] [r/raum-overview])

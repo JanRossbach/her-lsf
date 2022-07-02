@@ -13,10 +13,29 @@
      :label (str @name)
      :level :level1]))
 
-(defn button []
-  [re-com/button
-   :label "Initialize ds-mock"
-   :on-click #(re-frame/dispatch [::events/initialize-ds])])
+(defn- col->array
+  [col]
+  (-> js/Array
+      .-prototype
+      .-slice
+      (.call col)))
+
+(defn import-xml-button
+  []
+  [:input
+   {:type "file" :id "file" :name "file"
+    :on-change
+    #(re-frame/dispatch [::events/import-xml (-> % .-target .-files col->array js->clj)])}])
+
+(defn button-row []
+  [re-com/h-box
+   :gap "10px"
+   :children
+   [[re-com/button
+    :label "Initialize ds-mock"
+    :on-click #(re-frame/dispatch [::events/initialize-ds])]
+  ;; [import-xml-button]
+   ]])
 
 (defn root-component []
   [re-com/v-box
@@ -25,4 +44,4 @@
    :children
    [[title]
     [main-panel]
-    [button]]])
+    [button-row]]])

@@ -73,13 +73,13 @@
      :on-success [::xml-import-read-success]
      :on-error [::xml-import-read-error]}}))
 
-
 (re-frame/reg-event-db
- ::navigate
- (fn [db [_ new-panel]]
-   (assoc db :application/active-panel new-panel)))
-
-(re-frame/reg-event-db
- ::set-v-search-term
+ ::set-search-term
  (fn [db [_ st]]
-   (assoc db :veranstaltungen/current-search-term st)))
+   (assoc db :application/current-search-term st)))
+
+(re-frame/reg-event-fx
+ ::navigate
+ (fn [{:keys [db]} [_ new-panel]]
+   {:db (assoc db :application/active-panel new-panel)
+    :dispatch [::set-search-term #".*.*"]}))

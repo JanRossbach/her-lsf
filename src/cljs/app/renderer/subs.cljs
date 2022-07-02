@@ -25,9 +25,9 @@
 ;; veranstaltugen-panel-subs
 
 (re-frame/reg-sub
- ::v-search-term
+ ::search-term
  (fn [db _]
-   (:veranstaltungen/current-search-term db)))
+   (:application/current-search-term db)))
 
 (re-posh/reg-query-sub
  ::veranstaltungen
@@ -43,3 +43,11 @@
    {:type :pull
     :pattern '[:veranstaltung/name]
     :id id}))
+
+(re-posh/reg-query-sub
+ ::raueme
+ '[:find ?id ?name
+   :in $ ?search-term
+   :where
+   [?id :raum/name ?name]
+   [(re-matches ?search-term ?name)]])

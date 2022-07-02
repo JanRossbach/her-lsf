@@ -95,7 +95,7 @@
 (def initial-db
   {:application/name "HER-LSF"
    :application/active-panel [:veranstaltungen]
-   :veranstaltungen/current-search-term ""})
+   :application/current-search-term #".*.*"})
 
 (defn gen-entities []
   (gen/generate (spec/gen ::entities)))

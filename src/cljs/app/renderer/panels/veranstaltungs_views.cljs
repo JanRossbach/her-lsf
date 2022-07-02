@@ -1,17 +1,11 @@
 (ns app.renderer.panels.veranstaltungs-views
   (:require
+   [app.renderer.panels.common-components :as common]
    [re-frame.core :as re-frame]
    [re-com.core :as re-com]
    [app.renderer.subs :as subs]
    [app.renderer.events :as events]))
 
-(defn v-search-field
-  []
-  [re-com/input-text
-   :model ""
-   :on-change #(re-frame/dispatch [::events/set-v-search-term %])
-   :placeholder "Search"
-   :change-on-blur? true])
 
 
 (defn v-item
@@ -31,15 +25,23 @@
      :label name
      :level :level2]))
 
+(defn veranstaltungs-liste
+  [veranstaltungen]
+  [re-com/v-box
+   :gap "10px"
+   :class "container"
+   :children
+   [(for [v veranstaltungen]
+      ^{:key v} [v-item v])]])
+
 (defn veranstaltungen-view
   []
-  (let [search-term @(re-frame/subscribe [::subs/v-search-term])
-        pattern (re-pattern (str ".*" search-term ".*"))
-        veranstaltungen @(re-frame/subscribe [::subs/veranstaltungen pattern])]
+  (let [search-term @(re-frame/subscribe [::subs/search-term])
+        veranstaltungen @(re-frame/subscribe [::subs/veranstaltungen search-term])]
     [re-com/v-box
      :gap "10px"
      :class "container"
      :children
-     [[v-search-field]
-      (for [v veranstaltungen]
-        ^{:key v} [v-item v])]]))
+     [[common/search-field]
+      [veranstaltungs-liste veranstaltungen]
+      ]]))
