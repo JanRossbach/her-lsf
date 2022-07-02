@@ -44,6 +44,8 @@
     :pattern '[:veranstaltung/name]
     :id id}))
 
+;; raum-panel-subs
+
 (re-posh/reg-query-sub
  ::raueme
  '[:find ?id ?name
@@ -51,3 +53,7 @@
    :where
    [?id :raum/name ?name]
    [(re-matches ?search-term ?name)]])
+
+(re-posh/reg-pull-sub
+ ::raum
+ '[:raum/name :raum/belegt?])

@@ -5,7 +5,8 @@
    [re-frame.core :as re-frame]
    [re-posh.core :as re-posh]
    [jtk-dvlp.re-frame.readfile-fx]
-   [app.renderer.db :as database]))
+   [app.renderer.db :as database]
+   [app.renderer.common :as common]))
 
 ;; ELECTRON STUFF
 
@@ -79,7 +80,12 @@
    (assoc db :application/current-search-term st)))
 
 (re-frame/reg-event-fx
- ::navigate
+ ::navigate-reset-search
  (fn [{:keys [db]} [_ new-panel]]
    {:db (assoc db :application/active-panel new-panel)
-    :dispatch [::set-search-term #".*.*"]}))
+    :dispatch [::set-search-term common/default-search-term]}))
+
+(re-frame/reg-event-db
+ ::navigate
+ (fn [db [_ new-panel]]
+   (assoc db :application/active-panel new-panel)))

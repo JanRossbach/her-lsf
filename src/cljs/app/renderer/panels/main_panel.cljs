@@ -22,9 +22,10 @@
      [[re-com/horizontal-bar-tabs
        :model panel
        :tabs tab-definitions
-       :on-change #(re-frame/dispatch [::events/navigate [%]])]
+       :on-change #(re-frame/dispatch [::events/navigate-reset [%]])]
       [active-panel panel]]]))
 
 (defmethod active-panel :veranstaltung [[_ id]] [v/v-details-view id])
 (defmethod active-panel :veranstaltungen [_] [v/veranstaltungen-view])
 (defmethod active-panel :raeume [_] [r/raum-overview])
+(defmethod active-panel :raum [[_ id]] [r/r-details id])

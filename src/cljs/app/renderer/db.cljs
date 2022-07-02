@@ -11,8 +11,9 @@
 (spec/def :raum/name string?)
 (spec/def :raum/form string?)
 (spec/def :raum/gebaeude string?)
+(spec/def :raum/belegt? boolean?)
 
-(spec/def ::raum (spec/keys :req [:raum/name :raum/form :raum/gebaeude]))
+(spec/def ::raum (spec/keys :req [:raum/name :raum/form :raum/gebaeude :raum/belegt?]))
 
 
 (spec/def :lehrperson/pers-id (spec/and int? #(> % 0)))

@@ -1,16 +1,15 @@
 (ns app.renderer.panels.veranstaltungs-views
   (:require
-   [app.renderer.panels.common-components :as common]
+   [app.renderer.common :as common]
    [re-frame.core :as re-frame]
    [re-com.core :as re-com]
    [app.renderer.subs :as subs]
    [app.renderer.events :as events]))
 
-
-
 (defn v-item
   [[id]]
   (let [v @(re-frame/subscribe [::subs/veranstaltung-by-id id])
+
         name (:veranstaltung/name v)]
   [re-com/hyperlink
    :label (str name)
@@ -21,14 +20,21 @@
   [id]
   (let [v @(re-frame/subscribe [::subs/veranstaltung-by-id id])
         name (:veranstaltung/name v)]
-    [re-com/title
-     :label name
-     :level :level2]))
+    [re-com/v-box
+     :gap common/gap-size
+     :class common/box-class
+     :children
+     [
+     [re-com/title
+      :label name
+      :level :level2]
+     [common/back-button [:veranstaltungen]]
+     ]]))
 
 (defn veranstaltungs-liste
   [veranstaltungen]
   [re-com/v-box
-   :gap "10px"
+   :gap common/gap-size
    :class "container"
    :children
    [(for [v veranstaltungen]
@@ -39,8 +45,8 @@
   (let [search-term @(re-frame/subscribe [::subs/search-term])
         veranstaltungen @(re-frame/subscribe [::subs/veranstaltungen search-term])]
     [re-com/v-box
-     :gap "10px"
-     :class "container"
+     :gap common/gap-size
+     :class common/box-class
      :children
      [[common/search-field]
       [veranstaltungs-liste veranstaltungen]
