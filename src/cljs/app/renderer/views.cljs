@@ -32,7 +32,7 @@
    :gap "10px"
    :children
    [[re-com/button
-    :label "Initialize ds-mock"
+    :label "Add more mock data"
     :on-click #(re-frame/dispatch [::events/initialize-ds])]
   ;; [import-xml-button]
    ]])

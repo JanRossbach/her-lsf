@@ -6,14 +6,15 @@
    [datascript.core :as datascript]
    [re-posh.core :as re-posh]))
 
+
+
 ;; specs
 
 (spec/def :raum/name string?)
 (spec/def :raum/form string?)
 (spec/def :raum/gebaeude string?)
-(spec/def :raum/belegt? boolean?)
 
-(spec/def ::raum (spec/keys :req [:raum/name :raum/form :raum/gebaeude :raum/belegt?]))
+(spec/def ::raum (spec/keys :req [:raum/name :raum/form :raum/gebaeude]))
 
 
 (spec/def :lehrperson/pers-id (spec/and int? #(> % 0)))
@@ -28,13 +29,14 @@
 ;; Vorlesungzeit
 
 (spec/def :vzeit/id (spec/and int? #(> % 0)))
-(spec/def :vzeit/wochentag string?)
+(spec/def :vzeit/wochentag #{"Montag" "Dienstag" "Mittwoch" "Donnerstag" "Freitag" "Samstag" "Sonntag"})
 (spec/def :vzeit/start-zeit string?)
 (spec/def :vzeit/end-zeit string?)
 (spec/def :vzeit/start-datum string?)
 (spec/def :vzeit/end-datum string?)
 (spec/def :vzeit/rhythmus string?)
 (spec/def :vzeit/raum ::raum)
+(spec/def :vzeit/markiert? boolean?)
 
 (spec/def ::vzeit (spec/keys :req [:vzeit/id]
                              :opt [:vzeit/start-datum
@@ -43,6 +45,7 @@
                                    :vzeit/wochentag
                                    :vzeit/start-zeit
                                    :vzeit/raum
+                                   :vzeit/markiert?
                                    :vzeit/end-zeit]))
 
 
@@ -79,8 +82,6 @@
                             :veranstaltung ::veranstaltung))
 
 (spec/def ::entities (spec/coll-of ::entity))
-
-
 
 ;; Initialize databases
 

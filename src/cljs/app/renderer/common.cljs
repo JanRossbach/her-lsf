@@ -6,6 +6,7 @@
 ;; App Constants
 
 (def gap-size "10px")
+(def big-gap-size "50px")
 (def box-class "container")
 (def default-search-term #".*.*")
 
@@ -34,4 +35,5 @@
   [target]
   [re-com/button
    :label "Back"
+   :class "btn-info"
    :on-click #(re-frame/dispatch [:app.renderer.events/navigate target])])

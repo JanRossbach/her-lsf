@@ -3,6 +3,7 @@
    [re-frame.core :as re-frame]
    [app.renderer.subs :as subs]
    [app.renderer.events :as events]
+   [app.renderer.common :as common]
    [re-com.core :as re-com]
    [app.renderer.panels.veranstaltungs-views :as v]
    [app.renderer.panels.raum-views :as r]))
@@ -10,7 +11,7 @@
 (defmulti active-panel first)
 
 (def tab-definitions
-  [{:id :veranstaltungen :label "Veranstaltungen"}
+  [{:id :veranstaltungen :label "Kurse"}
    {:id :raeume :label "Räume"}])
 
 (defn main-panel
@@ -22,7 +23,8 @@
      [[re-com/horizontal-bar-tabs
        :model panel
        :tabs tab-definitions
-       :on-change #(re-frame/dispatch [::events/navigate-reset [%]])]
+       :on-change #(re-frame/dispatch [::events/navigate-reset-search [%]])]
+      [re-com/gap :size common/big-gap-size]
       [active-panel panel]]]))
 
 (defmethod active-panel :veranstaltung [[_ id]] [v/v-details-view id])

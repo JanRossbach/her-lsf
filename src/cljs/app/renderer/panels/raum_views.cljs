@@ -1,6 +1,8 @@
 (ns app.renderer.panels.raum-views
   (:require
+   [re-posh.core :as re-posh]
    [re-frame.core :as re-frame]
+   [app.renderer.panels.raum-calender :refer [gantt-chart-demo]]
    [app.renderer.common :as common]
    [re-com.core :as re-com]
    [app.renderer.subs :as subs]
@@ -12,10 +14,28 @@
    :label (str name)
    :on-click #(re-frame/dispatch [::events/navigate [:raum id]])])
 
+(defn z-item
+  [id]
+  (let [zeit @(re-frame/subscribe [::subs/vzeit id])
+        wochentag (:vzeit/wochentag zeit)
+        start (:vzeit/start-zeit zeit)
+        markiert (:vzeit/markiert? zeit)]
+    [re-com/p (str "Belegt am " wochentag " um " start (if markiert " check" " uncheck"))]))
+
+(defn vzeiten-list
+  [zeiten-ids]
+  [re-com/h-box
+   :gap common/gap-size
+   :class common/box-class
+   :children
+   [
+    (for [z zeiten-ids]
+      ^{:key z} [z-item z])]])
+
 (defn r-details
   [id]
   (let [r @(re-frame/subscribe [::subs/raum id])
-        belegt? (:raum/belegt? r)
+        zeiten @(re-frame/subscribe [::subs/raum-zeiten id])
         name (:raum/name r)]
     [re-com/v-box
      :gap common/gap-size
@@ -24,13 +44,10 @@
      [[re-com/title
        :label (str name)
        :level :level2]
-      [re-com/title
-       :label (if belegt?
-                "Der Raum ist zur Zeit belegt :("
-                "Der Raum ist derzeit frei :)")
-       :level :level3]
-      [common/back-button [:raeume]]
-      ]]))
+      ;[vzeiten-list zeiten]
+      [gantt-chart-demo]
+      [re-com/gap :size common/big-gap-size]
+      [common/back-button [:raeume]]]]))
 
 (defn raum-liste
   [raueme]
@@ -50,4 +67,5 @@
      :class common/box-class
      :children
      [[common/search-field]
+      [re-com/gap :size common/big-gap-size]
       [raum-liste raueme]]]))

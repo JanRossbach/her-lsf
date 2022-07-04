@@ -6,13 +6,15 @@
 
 ;; specs
 
+(def raeume (into #{} (read-string (slurp "resources/raeume.edn"))))
 
 (spec/def :raum/name string?)
 (spec/def :raum/form string?)
 (spec/def :raum/gebaeude string?)
 
-(spec/def ::raum (spec/keys :req [:raum/name :raum/form :raum/gebaeude]))
+;; (spec/def ::raum (spec/keys :req [:raum/name :raum/form :raum/gebaeude]))
 
+(spec/def ::raum raeume)
 
 (spec/def :lehrperson/pers-id (spec/and int? #(> % 0)))
 (spec/def :lehrperson/name string?)
@@ -23,15 +25,16 @@
                                         :lehrperson/vorname]))
 
 
+
 ;; Vorlesungzeit
 
 (spec/def :vzeit/id (spec/and int? #(> % 0)))
-(spec/def :vzeit/wochentag string?)
+(spec/def :vzeit/wochentag #{"Montag" "Dienstag" "Mittwoch" "Donnerstag" "Freitag" "Samstag" "Sonntag"})
 (spec/def :vzeit/start-zeit string?)
 (spec/def :vzeit/end-zeit string?)
 (spec/def :vzeit/start-datum string?)
 (spec/def :vzeit/end-datum string?)
-(spec/def :vzeit/rhythmus string?)
+(spec/def :vzeit/rhythmus #{"wöchentlich" "Blockveranstaltung"})
 (spec/def :vzeit/raum ::raum)
 
 (spec/def ::vzeit (spec/keys :req [:vzeit/id]

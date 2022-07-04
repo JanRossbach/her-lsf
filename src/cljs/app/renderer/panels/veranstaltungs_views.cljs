@@ -49,5 +49,6 @@
      :class common/box-class
      :children
      [[common/search-field]
+      [re-com/gap :size common/big-gap-size]
       [veranstaltungs-liste veranstaltungen]
       ]]))

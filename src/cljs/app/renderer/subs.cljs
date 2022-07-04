@@ -54,6 +54,17 @@
    [?id :raum/name ?name]
    [(re-matches ?search-term ?name)]])
 
+(re-posh/reg-query-sub
+ ::raum-zeiten
+ '[:find [?id ...]
+   :in $ ?raum-id
+   :where
+   [?id :vzeit/raum ?raum-id]])
+
+(re-posh/reg-pull-sub
+ ::vzeit
+ '[*])
+
 (re-posh/reg-pull-sub
  ::raum
  '[:raum/name :raum/belegt?])
