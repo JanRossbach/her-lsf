@@ -1,5 +1,10 @@
 # HER-LSF
 
+# Deprecation Warning
+
+This repo is a legacy version of the App using Electron that is preserved for archiving purposes.
+The new version is at https://github.com/JanRossbach/herlsf.
+
 ## Requirements
 
 - npm https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
